@@ -1,0 +1,63 @@
+{
+  "database_engine": "8.4.13",
+  "import": "PASS",
+  "schemas": {
+    "cumbre_cafe": {
+      "tables": {
+        "roles": 3,
+        "usuarios": 5,
+        "zonas_origen": 6,
+        "productores": 6,
+        "granos": 8,
+        "metodos_preparacion": 4,
+        "cafeterias_aliadas": 4,
+        "cafeteria_grano": 8,
+        "mensajes_contacto": 6
+      },
+      "total_rows": 50,
+      "routines": [
+        "sp_ajustar_stock_grano",
+        "sp_atender_mensaje",
+        "sp_registrar_mensaje"
+      ],
+      "view_rows": 8,
+      "foreign_keys": 7,
+      "checks": 14
+    },
+    "cumbre_cafe_test": {
+      "tables": {
+        "roles": 3,
+        "usuarios": 5,
+        "zonas_origen": 6,
+        "productores": 6,
+        "granos": 8,
+        "metodos_preparacion": 4,
+        "cafeterias_aliadas": 4,
+        "cafeteria_grano": 8,
+        "mensajes_contacto": 6
+      },
+      "total_rows": 50,
+      "routines": [
+        "sp_ajustar_stock_grano",
+        "sp_atender_mensaje",
+        "sp_registrar_mensaje"
+      ],
+      "view_rows": 8,
+      "foreign_keys": 7,
+      "checks": 14
+    }
+  },
+  "schema_tables_preserved": 9,
+  "check_constraints_preserved": 14,
+  "foreign_keys_preserved": 7,
+  "secondary_indexes_preserved": 4,
+  "migration_test": {
+    "status": "PASS",
+    "preserved_original_hashes": 5,
+    "password_column_size": 255
+  },
+  "repeat_installation_test": {
+    "status": "PASS",
+    "behavior": "Stops on existing table without replacing data"
+  }
+}

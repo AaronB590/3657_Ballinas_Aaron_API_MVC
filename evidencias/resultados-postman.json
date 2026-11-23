@@ -1,0 +1,1216 @@
+{
+  "project": "Cumbre Café API MVC",
+  "tool": "Newman: ejecución real de la colección y su sandbox de Postman",
+  "newmanVersion": "6.2.3",
+  "nodeVersion": "v24.22.3",
+  "databaseVersion": "8.4.13",
+  "startedAt": "2026-11-23T19:00:18.276Z",
+  "completedAt": "2026-11-23T19:00:19.429Z",
+  "durationMs": 1153,
+  "collectionFile": "postman/Cumbre_Cafe.postman_collection.json",
+  "stats": {
+    "requests": {
+      "total": 45,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 198,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 45,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 45,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "failures": [],
+  "cleanup": {
+    "initialRows": {
+      "roles": 3,
+      "usuarios": 5,
+      "zonas_origen": 6,
+      "productores": 6,
+      "granos": 8,
+      "metodos_preparacion": 4,
+      "cafeterias_aliadas": 4,
+      "cafeteria_grano": 8,
+      "mensajes_contacto": 6
+    },
+    "finalRows": {
+      "roles": 3,
+      "usuarios": 5,
+      "zonas_origen": 6,
+      "productores": 6,
+      "granos": 8,
+      "metodos_preparacion": 4,
+      "cafeterias_aliadas": 4,
+      "cafeteria_grano": 8,
+      "mensajes_contacto": 6
+    },
+    "totalInitialRows": 50,
+    "totalFinalRows": 50,
+    "allOriginalRowsUnchanged": true
+  },
+  "executions": [
+    {
+      "name": "01 POST — Crear · Roles",
+      "method": "POST",
+      "path": "/api/roles",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_rol",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "02 GET — Consultar por identificador · Roles",
+      "method": "GET",
+      "path": "/api/roles/6",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_rol",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "03 GET — Listar · Roles",
+      "method": "GET",
+      "path": "/api/roles",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "04 PATCH — Actualizar parcialmente · Roles",
+      "method": "PATCH",
+      "path": "/api/roles/6",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_rol",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "05 POST — Crear · Usuarios",
+      "method": "POST",
+      "path": "/api/usuarios",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_usuario",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        },
+        {
+          "name": "La API nunca devuelve contraseñas ni hashes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "06 GET — Consultar por identificador · Usuarios",
+      "method": "GET",
+      "path": "/api/usuarios/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_usuario",
+          "passed": true
+        },
+        {
+          "name": "La API nunca devuelve contraseñas ni hashes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "07 GET — Listar · Usuarios",
+      "method": "GET",
+      "path": "/api/usuarios",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        },
+        {
+          "name": "La API nunca devuelve contraseñas ni hashes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "08 PATCH — Actualizar parcialmente · Usuarios",
+      "method": "PATCH",
+      "path": "/api/usuarios/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_usuario",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        },
+        {
+          "name": "La API nunca devuelve contraseñas ni hashes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "09 POST — Crear · Zonas de origen",
+      "method": "POST",
+      "path": "/api/zonas-origen",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_zona",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "10 GET — Consultar por identificador · Zonas de origen",
+      "method": "GET",
+      "path": "/api/zonas-origen/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_zona",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "11 GET — Listar · Zonas de origen",
+      "method": "GET",
+      "path": "/api/zonas-origen",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "12 PATCH — Actualizar parcialmente · Zonas de origen",
+      "method": "PATCH",
+      "path": "/api/zonas-origen/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_zona",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "13 POST — Crear · Productores",
+      "method": "POST",
+      "path": "/api/productores",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_productor",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "14 GET — Consultar por identificador · Productores",
+      "method": "GET",
+      "path": "/api/productores/10",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_productor",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "15 GET — Listar · Productores",
+      "method": "GET",
+      "path": "/api/productores",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "16 PATCH — Actualizar parcialmente · Productores",
+      "method": "PATCH",
+      "path": "/api/productores/10",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_productor",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "17 POST — Crear · Granos",
+      "method": "POST",
+      "path": "/api/granos",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_grano",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "18 GET — Consultar por identificador · Granos",
+      "method": "GET",
+      "path": "/api/granos/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "19 GET — Listar · Granos",
+      "method": "GET",
+      "path": "/api/granos",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "20 PATCH — Actualizar parcialmente · Granos",
+      "method": "PATCH",
+      "path": "/api/granos/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "21 POST — Crear · Métodos de preparación",
+      "method": "POST",
+      "path": "/api/metodos-preparacion",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_metodo",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "22 GET — Consultar por identificador · Métodos de preparación",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/7",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_metodo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "23 GET — Listar · Métodos de preparación",
+      "method": "GET",
+      "path": "/api/metodos-preparacion",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "24 PATCH — Actualizar parcialmente · Métodos de preparación",
+      "method": "PATCH",
+      "path": "/api/metodos-preparacion/7",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_metodo",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "25 POST — Crear · Cafeterías aliadas",
+      "method": "POST",
+      "path": "/api/cafeterias-aliadas",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "26 GET — Consultar por identificador · Cafeterías aliadas",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/8",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "27 GET — Listar · Cafeterías aliadas",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "28 PATCH — Actualizar parcialmente · Cafeterías aliadas",
+      "method": "PATCH",
+      "path": "/api/cafeterias-aliadas/8",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "29 POST — Crear · Relación cafetería-grano",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_grano",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "30 GET — Consultar por identificador · Relación cafetería-grano",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/8/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "31 GET — Listar · Relación cafetería-grano",
+      "method": "GET",
+      "path": "/api/cafeteria-grano",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "32 PATCH — Actualizar parcialmente · Relación cafetería-grano",
+      "method": "PATCH",
+      "path": "/api/cafeteria-grano/8/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "33 POST — Crear · Mensajes de contacto",
+      "method": "POST",
+      "path": "/api/mensajes-contacto",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Identificador válido: id_mensaje",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "34 GET — Consultar por identificador · Mensajes de contacto",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_mensaje",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "35 GET — Listar · Mensajes de contacto",
+      "method": "GET",
+      "path": "/api/mensajes-contacto",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Lista y paginación coherentes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "36 PATCH — Actualizar parcialmente · Mensajes de contacto",
+      "method": "PATCH",
+      "path": "/api/mensajes-contacto/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_mensaje",
+          "passed": true
+        },
+        {
+          "name": "Los campos enviados quedaron guardados",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "37 DELETE — Eliminar · Mensajes de contacto",
+      "method": "DELETE",
+      "path": "/api/mensajes-contacto/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_mensaje",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "38 DELETE — Eliminar · Relación cafetería-grano",
+      "method": "DELETE",
+      "path": "/api/cafeteria-grano/8/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "39 DELETE — Eliminar · Cafeterías aliadas",
+      "method": "DELETE",
+      "path": "/api/cafeterias-aliadas/8",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_cafeteria",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "40 DELETE — Eliminar · Métodos de preparación",
+      "method": "DELETE",
+      "path": "/api/metodos-preparacion/7",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_metodo",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "41 DELETE — Eliminar · Granos",
+      "method": "DELETE",
+      "path": "/api/granos/12",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_grano",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "42 DELETE — Eliminar · Productores",
+      "method": "DELETE",
+      "path": "/api/productores/10",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_productor",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "43 DELETE — Eliminar · Zonas de origen",
+      "method": "DELETE",
+      "path": "/api/zonas-origen/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_zona",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "44 DELETE — Eliminar · Usuarios",
+      "method": "DELETE",
+      "path": "/api/usuarios/9",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_usuario",
+          "passed": true
+        },
+        {
+          "name": "La API nunca devuelve contraseñas ni hashes",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "45 DELETE — Eliminar · Roles",
+      "method": "DELETE",
+      "path": "/api/roles/6",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Respuesta comprensible y exitosa",
+          "passed": true
+        },
+        {
+          "name": "Datos del registro presentes",
+          "passed": true
+        },
+        {
+          "name": "Corresponde al registro creado: id_rol",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

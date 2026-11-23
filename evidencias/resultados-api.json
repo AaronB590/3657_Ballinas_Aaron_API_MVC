@@ -1,0 +1,6512 @@
+{
+  "project": "Cumbre Café API MVC",
+  "startedAt": "2026-11-23T18:57:57.021Z",
+  "tool": "Node.js fetch: solicitudes HTTP reales a Express y consultas a MySQL",
+  "nodeVersion": "v24.22.3",
+  "results": [
+    {
+      "id": 1,
+      "table": "sistema",
+      "title": "Conexión HTTP y MySQL",
+      "method": "GET",
+      "path": "/api/health",
+      "requestedAt": "2026-11-23T18:57:57.130Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "API y base de datos disponibles.",
+          "data": {
+            "status": "ok"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 28.17
+    },
+    {
+      "id": 2,
+      "table": "roles",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:57.140Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Prueba mwtmow7y",
+          "descripcion": "Rol temporal de demostración"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/roles/4"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "Rol temporal de demostración"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 9.53
+    },
+    {
+      "id": 3,
+      "table": "roles",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:57.143Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "Rol temporal de demostración"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.56
+    },
+    {
+      "id": 4,
+      "table": "roles",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/roles?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.146Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_rol": 1,
+              "nombre": "Administrador",
+              "descripcion": "Acceso total al panel de administración"
+            },
+            {
+              "id_rol": 2,
+              "nombre": "Editor",
+              "descripcion": "Gestiona contenidos y atiende mensajes de contacto"
+            },
+            {
+              "id_rol": 3,
+              "nombre": "Cafetería",
+              "descripcion": "Gestiona la ficha de su cafetería aliada"
+            },
+            {
+              "id_rol": 4,
+              "nombre": "Prueba mwtmow7y",
+              "descripcion": "Rol temporal de demostración"
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 4
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.65
+    },
+    {
+      "id": 5,
+      "table": "roles",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:57.152Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "descripcion": "Rol actualizado mediante PATCH"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "Rol actualizado mediante PATCH"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 5.81
+    },
+    {
+      "id": 6,
+      "table": "roles",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:57.154Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "Rol actualizado mediante PATCH"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.73
+    },
+    {
+      "id": 7,
+      "table": "roles",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:57.158Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "descripcion": "Rol actualizado mediante PATCH"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "Rol actualizado mediante PATCH"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 4.17
+    },
+    {
+      "id": 8,
+      "table": "roles",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:57.160Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 2.16
+    },
+    {
+      "id": 9,
+      "table": "roles",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:57.162Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.97
+    },
+    {
+      "id": 10,
+      "table": "roles",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/roles/0",
+      "requestedAt": "2026-11-23T18:57:57.163Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_rol",
+              "message": "Debe ser un número entero entre 1 y 255."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.38
+    },
+    {
+      "id": 11,
+      "table": "roles",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/roles/255",
+      "requestedAt": "2026-11-23T18:57:57.165Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Rol no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.27
+    },
+    {
+      "id": 12,
+      "table": "roles",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/roles?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.165Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.79
+    },
+    {
+      "id": 13,
+      "table": "usuarios",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/usuarios",
+      "requestedAt": "2026-11-23T18:57:57.495Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_rol": 4,
+          "nombre": "Usuario mwtmow7y",
+          "email": "api.mwtmow7y@example.test",
+          "password": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/usuarios/6"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario mwtmow7y",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 329.32
+    },
+    {
+      "id": 14,
+      "table": "usuarios",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:57.496Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario mwtmow7y",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.12
+    },
+    {
+      "id": 15,
+      "table": "usuarios",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/usuarios?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.498Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_usuario": 1,
+              "id_rol": 1,
+              "nombre": "Administrador General",
+              "email": "admin@cumbrecafe.com",
+              "activo": 1,
+              "fecha_registro": "2026-09-01 09:00:00"
+            },
+            {
+              "id_usuario": 2,
+              "id_rol": 2,
+              "nombre": "Camila Rojas",
+              "email": "camila@cumbrecafe.com",
+              "activo": 1,
+              "fecha_registro": "2026-09-03 10:30:00"
+            },
+            {
+              "id_usuario": 3,
+              "id_rol": 3,
+              "nombre": "Marco Delgado",
+              "email": "marco@cafenube.com",
+              "activo": 1,
+              "fecha_registro": "2026-09-10 11:15:00"
+            },
+            {
+              "id_usuario": 4,
+              "id_rol": 3,
+              "nombre": "Lucía Paredes",
+              "email": "lucia@tostaderoaltura.com",
+              "activo": 1,
+              "fecha_registro": "2026-09-12 16:45:00"
+            },
+            {
+              "id_usuario": 5,
+              "id_rol": 3,
+              "nombre": "Andrés Huamán",
+              "email": "andres@granoytaza.com",
+              "activo": 0,
+              "fecha_registro": "2026-09-15 08:20:00"
+            },
+            {
+              "id_usuario": 6,
+              "id_rol": 4,
+              "nombre": "Usuario mwtmow7y",
+              "email": "api.mwtmow7y@example.test",
+              "activo": 1,
+              "fecha_registro": "2026-11-23 13:57:57"
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 6
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.6
+    },
+    {
+      "id": 16,
+      "table": "usuarios",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:57.502Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Usuario actualizado",
+          "activo": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario actualizado",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 4.55
+    },
+    {
+      "id": 17,
+      "table": "usuarios",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:57.504Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario actualizado",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.17
+    },
+    {
+      "id": 18,
+      "table": "usuarios",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:57.506Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Usuario actualizado",
+          "activo": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario actualizado",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.06
+    },
+    {
+      "id": 19,
+      "table": "usuarios",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/usuarios",
+      "requestedAt": "2026-11-23T18:57:57.507Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_rol",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "email",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "password",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.1
+    },
+    {
+      "id": 20,
+      "table": "usuarios",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:57.508Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.23
+    },
+    {
+      "id": 21,
+      "table": "usuarios",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/usuarios/0",
+      "requestedAt": "2026-11-23T18:57:57.509Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_usuario",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.81
+    },
+    {
+      "id": 22,
+      "table": "usuarios",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/usuarios/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.510Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Usuario no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.16
+    },
+    {
+      "id": 23,
+      "table": "usuarios",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/usuarios?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.511Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.72
+    },
+    {
+      "id": 24,
+      "table": "zonas_origen",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/zonas-origen",
+      "requestedAt": "2026-11-23T18:57:57.514Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Zona mwtmow7y",
+          "categoria": "Orgánico",
+          "region": "Cajamarca",
+          "altitud_min": 1200,
+          "altitud_max": 1800,
+          "perfil_sabor": "Notas de cacao y frutos rojos"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/zonas-origen/7"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_zona": 7,
+            "nombre": "Zona mwtmow7y",
+            "categoria": "Orgánico",
+            "region": "Cajamarca",
+            "altitud_min": 1200,
+            "altitud_max": 1800,
+            "perfil_sabor": "Notas de cacao y frutos rojos",
+            "descripcion": null,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 3.19
+    },
+    {
+      "id": 25,
+      "table": "zonas_origen",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:57.515Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_zona": 7,
+            "nombre": "Zona mwtmow7y",
+            "categoria": "Orgánico",
+            "region": "Cajamarca",
+            "altitud_min": 1200,
+            "altitud_max": 1800,
+            "perfil_sabor": "Notas de cacao y frutos rojos",
+            "descripcion": null,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.9
+    },
+    {
+      "id": 26,
+      "table": "zonas_origen",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/zonas-origen?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.516Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_zona": 1,
+              "nombre": "Cordillera Vilcabamba",
+              "categoria": "Alta montaña",
+              "region": "Cusco",
+              "altitud_min": 1800,
+              "altitud_max": 2200,
+              "perfil_sabor": "Acidez brillante, notas frutales y florales",
+              "descripcion": "Parcelas de altura con maduración lenta del grano.",
+              "activo": 1
+            },
+            {
+              "id_zona": 2,
+              "nombre": "Sierra de Amazonas",
+              "categoria": "Alta montaña",
+              "region": "Amazonas",
+              "altitud_min": 1700,
+              "altitud_max": 2100,
+              "perfil_sabor": "Acidez cítrica y cuerpo ligero",
+              "descripcion": "Zona de nubes y temperaturas frescas.",
+              "activo": 1
+            },
+            {
+              "id_zona": 3,
+              "nombre": "Valle de La Convención",
+              "categoria": "Valles andinos",
+              "region": "Cusco",
+              "altitud_min": 1000,
+              "altitud_max": 1800,
+              "perfil_sabor": "Dulzor equilibrado y cuerpo medio",
+              "descripcion": "Valle cálido con producción tradicional.",
+              "activo": 1
+            },
+            {
+              "id_zona": 4,
+              "nombre": "Valle del Chanchamayo",
+              "categoria": "Valles andinos",
+              "region": "Junín",
+              "altitud_min": 900,
+              "altitud_max": 1700,
+              "perfil_sabor": "Notas de caramelo y chocolate",
+              "descripcion": "Valle con larga tradición cafetalera.",
+              "activo": 1
+            },
+            {
+              "id_zona": 5,
+              "nombre": "Oxapampa",
+              "categoria": "Café de sombra",
+              "region": "Pasco",
+              "altitud_min": 1200,
+              "altitud_max": 1900,
+              "perfil_sabor": "Sabor suave y complejo, notas de nuez",
+              "descripcion": "Cultivo bajo árboles nativos.",
+              "activo": 1
+            },
+            {
+              "id_zona": 6,
+              "nombre": "San Ignacio",
+              "categoria": "Orgánico",
+              "region": "Cajamarca",
+              "altitud_min": 1200,
+              "altitud_max": 1800,
+              "perfil_sabor": "Taza limpia, dulce y con notas de frutos rojos",
+              "descripcion": "Prácticas sostenibles sin agroquímicos.",
+              "activo": 1
+            },
+            {
+              "id_zona": 7,
+              "nombre": "Zona mwtmow7y",
+              "categoria": "Orgánico",
+              "region": "Cajamarca",
+              "altitud_min": 1200,
+              "altitud_max": 1800,
+              "perfil_sabor": "Notas de cacao y frutos rojos",
+              "descripcion": null,
+              "activo": 1
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 27,
+      "table": "zonas_origen",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:57.519Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "altitud_max": 1900,
+          "descripcion": "Zona de prueba actualizada"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_zona": 7,
+            "nombre": "Zona mwtmow7y",
+            "categoria": "Orgánico",
+            "region": "Cajamarca",
+            "altitud_min": 1200,
+            "altitud_max": 1900,
+            "perfil_sabor": "Notas de cacao y frutos rojos",
+            "descripcion": "Zona de prueba actualizada",
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.83
+    },
+    {
+      "id": 28,
+      "table": "zonas_origen",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:57.520Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_zona": 7,
+            "nombre": "Zona mwtmow7y",
+            "categoria": "Orgánico",
+            "region": "Cajamarca",
+            "altitud_min": 1200,
+            "altitud_max": 1900,
+            "perfil_sabor": "Notas de cacao y frutos rojos",
+            "descripcion": "Zona de prueba actualizada",
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.1
+    },
+    {
+      "id": 29,
+      "table": "zonas_origen",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:57.522Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "altitud_max": 1900,
+          "descripcion": "Zona de prueba actualizada"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_zona": 7,
+            "nombre": "Zona mwtmow7y",
+            "categoria": "Orgánico",
+            "region": "Cajamarca",
+            "altitud_min": 1200,
+            "altitud_max": 1900,
+            "perfil_sabor": "Notas de cacao y frutos rojos",
+            "descripcion": "Zona de prueba actualizada",
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.43
+    },
+    {
+      "id": 30,
+      "table": "zonas_origen",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/zonas-origen",
+      "requestedAt": "2026-11-23T18:57:57.524Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "categoria",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "region",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "altitud_min",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "altitud_max",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "perfil_sabor",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.17
+    },
+    {
+      "id": 31,
+      "table": "zonas_origen",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:57.525Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.44
+    },
+    {
+      "id": 32,
+      "table": "zonas_origen",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/zonas-origen/0",
+      "requestedAt": "2026-11-23T18:57:57.526Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_zona",
+              "message": "Debe ser un número entero entre 1 y 65535."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.99
+    },
+    {
+      "id": 33,
+      "table": "zonas_origen",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/zonas-origen/65535",
+      "requestedAt": "2026-11-23T18:57:57.527Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Zona de origen no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 34,
+      "table": "zonas_origen",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/zonas-origen?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.528Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.84
+    },
+    {
+      "id": 35,
+      "table": "productores",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/productores",
+      "requestedAt": "2026-11-23T18:57:57.532Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_zona": 7,
+          "nombre": "Productor mwtmow7y",
+          "telefono": "900000001",
+          "email": "productor.mwtmow7y@example.test",
+          "certificacion_organica": true
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/productores/7"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_productor": 7,
+            "id_zona": 7,
+            "nombre": "Productor mwtmow7y",
+            "telefono": "900000001",
+            "email": "productor.mwtmow7y@example.test",
+            "certificacion_organica": 1,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 4.18
+    },
+    {
+      "id": 36,
+      "table": "productores",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:57.534Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_productor": 7,
+            "id_zona": 7,
+            "nombre": "Productor mwtmow7y",
+            "telefono": "900000001",
+            "email": "productor.mwtmow7y@example.test",
+            "certificacion_organica": 1,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.2
+    },
+    {
+      "id": 37,
+      "table": "productores",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/productores?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.535Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_productor": 1,
+              "id_zona": 1,
+              "nombre": "Cooperativa Cumbre Verde",
+              "telefono": "984000101",
+              "email": "contacto@cumbreverde.pe",
+              "certificacion_organica": 0,
+              "activo": 1
+            },
+            {
+              "id_productor": 2,
+              "id_zona": 2,
+              "nombre": "Asociación Nubes del Norte",
+              "telefono": "976000202",
+              "email": "info@nubesdelnorte.pe",
+              "certificacion_organica": 0,
+              "activo": 1
+            },
+            {
+              "id_productor": 3,
+              "id_zona": 3,
+              "nombre": "Finca Río Claro",
+              "telefono": "983000303",
+              "email": "riclaro@fincarioclaro.pe",
+              "certificacion_organica": 0,
+              "activo": 1
+            },
+            {
+              "id_productor": 4,
+              "id_zona": 4,
+              "nombre": "Cooperativa Valle Dorado",
+              "telefono": "964000404",
+              "email": "ventas@valledorado.pe",
+              "certificacion_organica": 1,
+              "activo": 1
+            },
+            {
+              "id_productor": 5,
+              "id_zona": 5,
+              "nombre": "Productores de Sombra Unidos",
+              "telefono": "963000505",
+              "email": null,
+              "certificacion_organica": 1,
+              "activo": 1
+            },
+            {
+              "id_productor": 6,
+              "id_zona": 6,
+              "nombre": "Cooperativa Sendero Orgánico",
+              "telefono": "975000606",
+              "email": "hola@senderoorganico.pe",
+              "certificacion_organica": 1,
+              "activo": 0
+            },
+            {
+              "id_productor": 7,
+              "id_zona": 7,
+              "nombre": "Productor mwtmow7y",
+              "telefono": "900000001",
+              "email": "productor.mwtmow7y@example.test",
+              "certificacion_organica": 1,
+              "activo": 1
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.35
+    },
+    {
+      "id": 38,
+      "table": "productores",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:57.538Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "telefono": "900000002",
+          "certificacion_organica": 0
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_productor": 7,
+            "id_zona": 7,
+            "nombre": "Productor mwtmow7y",
+            "telefono": "900000002",
+            "email": "productor.mwtmow7y@example.test",
+            "certificacion_organica": 0,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 3.23
+    },
+    {
+      "id": 39,
+      "table": "productores",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:57.539Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_productor": 7,
+            "id_zona": 7,
+            "nombre": "Productor mwtmow7y",
+            "telefono": "900000002",
+            "email": "productor.mwtmow7y@example.test",
+            "certificacion_organica": 0,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.22
+    },
+    {
+      "id": 40,
+      "table": "productores",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:57.542Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "telefono": "900000002",
+          "certificacion_organica": 0
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_productor": 7,
+            "id_zona": 7,
+            "nombre": "Productor mwtmow7y",
+            "telefono": "900000002",
+            "email": "productor.mwtmow7y@example.test",
+            "certificacion_organica": 0,
+            "activo": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.52
+    },
+    {
+      "id": 41,
+      "table": "productores",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/productores",
+      "requestedAt": "2026-11-23T18:57:57.543Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_zona",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.21
+    },
+    {
+      "id": 42,
+      "table": "productores",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:57.546Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 2.42
+    },
+    {
+      "id": 43,
+      "table": "productores",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/productores/0",
+      "requestedAt": "2026-11-23T18:57:57.546Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_productor",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.56
+    },
+    {
+      "id": 44,
+      "table": "productores",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/productores/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.547Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Productor no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.82
+    },
+    {
+      "id": 45,
+      "table": "productores",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/productores?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.548Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.55
+    },
+    {
+      "id": 46,
+      "table": "granos",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/granos",
+      "requestedAt": "2026-11-23T18:57:57.552Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_productor": 7,
+          "nombre": "Grano mwtmow7y",
+          "variedad": "Caturra",
+          "proceso": "Lavado",
+          "tueste": "Medio",
+          "puntaje_taza": 85.5,
+          "precio_kg": 65.5,
+          "stock_kg": 10
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/granos/9"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_grano": 9,
+            "id_productor": 7,
+            "nombre": "Grano mwtmow7y",
+            "variedad": "Caturra",
+            "proceso": "Lavado",
+            "tueste": "Medio",
+            "puntaje_taza": 85.5,
+            "precio_kg": 65.5,
+            "stock_kg": 10,
+            "disponible": 1
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 4.08
+    },
+    {
+      "id": 47,
+      "table": "granos",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:57.553Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_grano": 9,
+            "id_productor": 7,
+            "nombre": "Grano mwtmow7y",
+            "variedad": "Caturra",
+            "proceso": "Lavado",
+            "tueste": "Medio",
+            "puntaje_taza": 85.5,
+            "precio_kg": 65.5,
+            "stock_kg": 10,
+            "disponible": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.76
+    },
+    {
+      "id": 48,
+      "table": "granos",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/granos?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.554Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_grano": 1,
+              "id_productor": 1,
+              "nombre": "Vilcabamba Lavado Claro",
+              "variedad": "Typica",
+              "proceso": "Lavado",
+              "tueste": "Claro",
+              "puntaje_taza": 86.5,
+              "precio_kg": 78,
+              "stock_kg": 40,
+              "disponible": 1
+            },
+            {
+              "id_grano": 2,
+              "id_productor": 1,
+              "nombre": "Vilcabamba Honey Medio",
+              "variedad": "Caturra",
+              "proceso": "Honey",
+              "tueste": "Medio",
+              "puntaje_taza": 85,
+              "precio_kg": 72.5,
+              "stock_kg": 25.5,
+              "disponible": 1
+            },
+            {
+              "id_grano": 3,
+              "id_productor": 2,
+              "nombre": "Amazonas Cítrico",
+              "variedad": "Bourbon",
+              "proceso": "Lavado",
+              "tueste": "Claro",
+              "puntaje_taza": 84.5,
+              "precio_kg": 70,
+              "stock_kg": 30,
+              "disponible": 1
+            },
+            {
+              "id_grano": 4,
+              "id_productor": 3,
+              "nombre": "Río Claro Dulce",
+              "variedad": "Catimor",
+              "proceso": "Natural",
+              "tueste": "Medio",
+              "puntaje_taza": 82,
+              "precio_kg": 55,
+              "stock_kg": 60,
+              "disponible": 1
+            },
+            {
+              "id_grano": 5,
+              "id_productor": 4,
+              "nombre": "Dorado Chocolate",
+              "variedad": "Caturra",
+              "proceso": "Lavado",
+              "tueste": "Oscuro",
+              "puntaje_taza": 83,
+              "precio_kg": 58,
+              "stock_kg": 45,
+              "disponible": 1
+            },
+            {
+              "id_grano": 6,
+              "id_productor": 4,
+              "nombre": "Dorado Orgánico Medio",
+              "variedad": "Typica",
+              "proceso": "Lavado",
+              "tueste": "Medio",
+              "puntaje_taza": 84,
+              "precio_kg": 65,
+              "stock_kg": 18,
+              "disponible": 1
+            },
+            {
+              "id_grano": 7,
+              "id_productor": 5,
+              "nombre": "Sombra Nuez",
+              "variedad": "Bourbon",
+              "proceso": "Honey",
+              "tueste": "Medio",
+              "puntaje_taza": 85.5,
+              "precio_kg": 74,
+              "stock_kg": 12,
+              "disponible": 1
+            },
+            {
+              "id_grano": 8,
+              "id_productor": 6,
+              "nombre": "Sendero Frutos Rojos",
+              "variedad": "Geisha",
+              "proceso": "Natural",
+              "tueste": "Claro",
+              "puntaje_taza": 88.5,
+              "precio_kg": 95,
+              "stock_kg": 0,
+              "disponible": 0
+            },
+            {
+              "id_grano": 9,
+              "id_productor": 7,
+              "nombre": "Grano mwtmow7y",
+              "variedad": "Caturra",
+              "proceso": "Lavado",
+              "tueste": "Medio",
+              "puntaje_taza": 85.5,
+              "precio_kg": 65.5,
+              "stock_kg": 10,
+              "disponible": 1
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 9
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 49,
+      "table": "granos",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:57.556Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "precio_kg": 68.9,
+          "stock_kg": 12.5
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_grano": 9,
+            "id_productor": 7,
+            "nombre": "Grano mwtmow7y",
+            "variedad": "Caturra",
+            "proceso": "Lavado",
+            "tueste": "Medio",
+            "puntaje_taza": 85.5,
+            "precio_kg": 68.9,
+            "stock_kg": 12.5,
+            "disponible": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.49
+    },
+    {
+      "id": 50,
+      "table": "granos",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:57.557Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_grano": 9,
+            "id_productor": 7,
+            "nombre": "Grano mwtmow7y",
+            "variedad": "Caturra",
+            "proceso": "Lavado",
+            "tueste": "Medio",
+            "puntaje_taza": 85.5,
+            "precio_kg": 68.9,
+            "stock_kg": 12.5,
+            "disponible": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.73
+    },
+    {
+      "id": 51,
+      "table": "granos",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:57.558Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "precio_kg": 68.9,
+          "stock_kg": 12.5
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_grano": 9,
+            "id_productor": 7,
+            "nombre": "Grano mwtmow7y",
+            "variedad": "Caturra",
+            "proceso": "Lavado",
+            "tueste": "Medio",
+            "puntaje_taza": 85.5,
+            "precio_kg": 68.9,
+            "stock_kg": 12.5,
+            "disponible": 1
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.4
+    },
+    {
+      "id": 52,
+      "table": "granos",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/granos",
+      "requestedAt": "2026-11-23T18:57:57.559Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_productor",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "variedad",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "proceso",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "tueste",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "puntaje_taza",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "precio_kg",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.77
+    },
+    {
+      "id": 53,
+      "table": "granos",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:57.560Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.91
+    },
+    {
+      "id": 54,
+      "table": "granos",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/granos/0",
+      "requestedAt": "2026-11-23T18:57:57.561Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_grano",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.61
+    },
+    {
+      "id": 55,
+      "table": "granos",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/granos/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.562Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Grano no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.71
+    },
+    {
+      "id": 56,
+      "table": "granos",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/granos?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.562Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.6
+    },
+    {
+      "id": 57,
+      "table": "metodos_preparacion",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/metodos-preparacion",
+      "requestedAt": "2026-11-23T18:57:57.565Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Método mwtmow7y",
+          "descripcion": "Método de prueba por filtrado",
+          "proporcion": "1:15",
+          "temperatura_c": 92,
+          "tiempo_seg": 180,
+          "molienda": "Media",
+          "dificultad": "Fácil"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/metodos-preparacion/5"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_metodo": 5,
+            "nombre": "Método mwtmow7y",
+            "descripcion": "Método de prueba por filtrado",
+            "proporcion": "1:15",
+            "temperatura_c": 92,
+            "tiempo_seg": 180,
+            "molienda": "Media",
+            "dificultad": "Fácil"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 2.98
+    },
+    {
+      "id": 58,
+      "table": "metodos_preparacion",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:57.566Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_metodo": 5,
+            "nombre": "Método mwtmow7y",
+            "descripcion": "Método de prueba por filtrado",
+            "proporcion": "1:15",
+            "temperatura_c": 92,
+            "tiempo_seg": 180,
+            "molienda": "Media",
+            "dificultad": "Fácil"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.25
+    },
+    {
+      "id": 59,
+      "table": "metodos_preparacion",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/metodos-preparacion?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.568Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_metodo": 1,
+              "nombre": "Prensa francesa",
+              "descripcion": "Inmersión que da un cuerpo intenso; fácil de preparar en casa.",
+              "proporcion": "1:15",
+              "temperatura_c": 94,
+              "tiempo_seg": 240,
+              "molienda": "Gruesa",
+              "dificultad": "Fácil"
+            },
+            {
+              "id_metodo": 2,
+              "nombre": "Filtrado (V60)",
+              "descripcion": "Goteo que resalta las notas del grano con una taza limpia.",
+              "proporcion": "1:16",
+              "temperatura_c": 93,
+              "tiempo_seg": 180,
+              "molienda": "Media",
+              "dificultad": "Intermedia"
+            },
+            {
+              "id_metodo": 3,
+              "nombre": "Espresso",
+              "descripcion": "Extracción a presión; concentrado y base de muchas bebidas.",
+              "proporcion": "1:2",
+              "temperatura_c": 93,
+              "tiempo_seg": 28,
+              "molienda": "Fina",
+              "dificultad": "Avanzada"
+            },
+            {
+              "id_metodo": 4,
+              "nombre": "AeroPress",
+              "descripcion": "Método versátil de inmersión y presión manual.",
+              "proporcion": "1:14",
+              "temperatura_c": 85,
+              "tiempo_seg": 120,
+              "molienda": "Media",
+              "dificultad": "Fácil"
+            },
+            {
+              "id_metodo": 5,
+              "nombre": "Método mwtmow7y",
+              "descripcion": "Método de prueba por filtrado",
+              "proporcion": "1:15",
+              "temperatura_c": 92,
+              "tiempo_seg": 180,
+              "molienda": "Media",
+              "dificultad": "Fácil"
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 5
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.24
+    },
+    {
+      "id": 60,
+      "table": "metodos_preparacion",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:57.570Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "temperatura_c": 94,
+          "tiempo_seg": 200
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_metodo": 5,
+            "nombre": "Método mwtmow7y",
+            "descripcion": "Método de prueba por filtrado",
+            "proporcion": "1:15",
+            "temperatura_c": 94,
+            "tiempo_seg": 200,
+            "molienda": "Media",
+            "dificultad": "Fácil"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.69
+    },
+    {
+      "id": 61,
+      "table": "metodos_preparacion",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:57.571Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_metodo": 5,
+            "nombre": "Método mwtmow7y",
+            "descripcion": "Método de prueba por filtrado",
+            "proporcion": "1:15",
+            "temperatura_c": 94,
+            "tiempo_seg": 200,
+            "molienda": "Media",
+            "dificultad": "Fácil"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1
+    },
+    {
+      "id": 62,
+      "table": "metodos_preparacion",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:57.573Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "temperatura_c": 94,
+          "tiempo_seg": 200
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_metodo": 5,
+            "nombre": "Método mwtmow7y",
+            "descripcion": "Método de prueba por filtrado",
+            "proporcion": "1:15",
+            "temperatura_c": 94,
+            "tiempo_seg": 200,
+            "molienda": "Media",
+            "dificultad": "Fácil"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.85
+    },
+    {
+      "id": 63,
+      "table": "metodos_preparacion",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/metodos-preparacion",
+      "requestedAt": "2026-11-23T18:57:57.575Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "descripcion",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "proporcion",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "temperatura_c",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "tiempo_seg",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "molienda",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "dificultad",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.18
+    },
+    {
+      "id": 64,
+      "table": "metodos_preparacion",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:57.576Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.27
+    },
+    {
+      "id": 65,
+      "table": "metodos_preparacion",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/0",
+      "requestedAt": "2026-11-23T18:57:57.577Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_metodo",
+              "message": "Debe ser un número entero entre 1 y 65535."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.02
+    },
+    {
+      "id": 66,
+      "table": "metodos_preparacion",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/65535",
+      "requestedAt": "2026-11-23T18:57:57.578Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Método de preparación no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.04
+    },
+    {
+      "id": 67,
+      "table": "metodos_preparacion",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/metodos-preparacion?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.579Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.85
+    },
+    {
+      "id": 68,
+      "table": "cafeterias_aliadas",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/cafeterias-aliadas",
+      "requestedAt": "2026-11-23T18:57:57.583Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_resp": 6,
+          "nombre": "Cafetería mwtmow7y",
+          "ciudad": "Lima",
+          "direccion": "Calle de prueba 100",
+          "fecha_alianza": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/cafeterias-aliadas/5"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": 6,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": null,
+            "email": null,
+            "estado": "Pendiente",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 3.93
+    },
+    {
+      "id": 69,
+      "table": "cafeterias_aliadas",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:57.584Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": 6,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": null,
+            "email": null,
+            "estado": "Pendiente",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.18
+    },
+    {
+      "id": 70,
+      "table": "cafeterias_aliadas",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.585Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_cafeteria": 1,
+              "id_usuario_resp": 3,
+              "nombre": "Café Nube",
+              "ciudad": "Cusco",
+              "direccion": "Calle Plateros 120",
+              "telefono": "984111001",
+              "email": "hola@cafenube.com",
+              "estado": "Activa",
+              "fecha_alianza": "2026-09-10"
+            },
+            {
+              "id_cafeteria": 2,
+              "id_usuario_resp": 4,
+              "nombre": "Tostadero Altura",
+              "ciudad": "Arequipa",
+              "direccion": "Av. Ejército 455",
+              "telefono": "954222002",
+              "email": "info@tostaderoaltura.com",
+              "estado": "Activa",
+              "fecha_alianza": "2026-09-12"
+            },
+            {
+              "id_cafeteria": 3,
+              "id_usuario_resp": 5,
+              "nombre": "Grano & Taza",
+              "ciudad": "Huancayo",
+              "direccion": "Jr. Real 890",
+              "telefono": "964333003",
+              "email": "contacto@granoytaza.com",
+              "estado": "Inactiva",
+              "fecha_alianza": "2026-09-15"
+            },
+            {
+              "id_cafeteria": 4,
+              "id_usuario_resp": null,
+              "nombre": "Rincón del Valle",
+              "ciudad": "Cajamarca",
+              "direccion": "Jr. Amazonas 310",
+              "telefono": "976444004",
+              "email": null,
+              "estado": "Pendiente",
+              "fecha_alianza": "2026-10-20"
+            },
+            {
+              "id_cafeteria": 5,
+              "id_usuario_resp": 6,
+              "nombre": "Cafetería mwtmow7y",
+              "ciudad": "Lima",
+              "direccion": "Calle de prueba 100",
+              "telefono": null,
+              "email": null,
+              "estado": "Pendiente",
+              "fecha_alianza": "2026-11-23"
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 5
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.3
+    },
+    {
+      "id": 71,
+      "table": "cafeterias_aliadas",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:57.588Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "estado": "Activa",
+          "telefono": "900000003"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": 6,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": "900000003",
+            "email": null,
+            "estado": "Activa",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.68
+    },
+    {
+      "id": 72,
+      "table": "cafeterias_aliadas",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:57.589Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": 6,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": "900000003",
+            "email": null,
+            "estado": "Activa",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.07
+    },
+    {
+      "id": 73,
+      "table": "cafeterias_aliadas",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:57.591Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "estado": "Activa",
+          "telefono": "900000003"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": 6,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": "900000003",
+            "email": null,
+            "estado": "Activa",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.18
+    },
+    {
+      "id": 74,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/cafeterias-aliadas",
+      "requestedAt": "2026-11-23T18:57:57.592Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "ciudad",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "direccion",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "fecha_alianza",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 75,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:57.594Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.4
+    },
+    {
+      "id": 76,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/0",
+      "requestedAt": "2026-11-23T18:57:57.595Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_cafeteria",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.87
+    },
+    {
+      "id": 77,
+      "table": "cafeterias_aliadas",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.596Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Cafetería aliada no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.98
+    },
+    {
+      "id": 78,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.597Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.8
+    },
+    {
+      "id": 79,
+      "table": "cafeteria_grano",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:57.600Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 5,
+          "id_grano": 9,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/cafeteria-grano/5/9"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación creada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 3.06
+    },
+    {
+      "id": 80,
+      "table": "cafeteria_grano",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:57.601Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.49
+    },
+    {
+      "id": 81,
+      "table": "cafeteria_grano",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/cafeteria-grano?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.603Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_cafeteria": 1,
+              "id_grano": 1,
+              "fecha_inicio": "2026-09-15"
+            },
+            {
+              "id_cafeteria": 1,
+              "id_grano": 3,
+              "fecha_inicio": "2026-09-15"
+            },
+            {
+              "id_cafeteria": 1,
+              "id_grano": 5,
+              "fecha_inicio": "2026-09-20"
+            },
+            {
+              "id_cafeteria": 2,
+              "id_grano": 1,
+              "fecha_inicio": "2026-09-18"
+            },
+            {
+              "id_cafeteria": 2,
+              "id_grano": 2,
+              "fecha_inicio": "2026-09-18"
+            },
+            {
+              "id_cafeteria": 2,
+              "id_grano": 7,
+              "fecha_inicio": "2026-10-01"
+            },
+            {
+              "id_cafeteria": 3,
+              "id_grano": 4,
+              "fecha_inicio": "2026-09-20"
+            },
+            {
+              "id_cafeteria": 4,
+              "id_grano": 6,
+              "fecha_inicio": "2026-10-22"
+            },
+            {
+              "id_cafeteria": 5,
+              "id_grano": 9,
+              "fecha_inicio": "2026-11-23"
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 9
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.55
+    },
+    {
+      "id": 82,
+      "table": "cafeteria_grano",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:57.606Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fecha_inicio": "2026-11-24"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación actualizada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-24"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.96
+    },
+    {
+      "id": 83,
+      "table": "cafeteria_grano",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:57.607Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-24"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.95
+    },
+    {
+      "id": 84,
+      "table": "cafeteria_grano",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:57.609Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fecha_inicio": "2026-11-24"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación actualizada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-24"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.26
+    },
+    {
+      "id": 85,
+      "table": "cafeteria_grano",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:57.610Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_cafeteria",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "id_grano",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "fecha_inicio",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.26
+    },
+    {
+      "id": 86,
+      "table": "cafeteria_grano",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:57.612Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.33
+    },
+    {
+      "id": 87,
+      "table": "cafeteria_grano",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/0/1",
+      "requestedAt": "2026-11-23T18:57:57.613Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_cafeteria",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.84
+    },
+    {
+      "id": 88,
+      "table": "cafeteria_grano",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/4294967295/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.614Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Relación cafetería-grano no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.14
+    },
+    {
+      "id": 89,
+      "table": "cafeteria_grano",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/cafeteria-grano?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.615Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.75
+    },
+    {
+      "id": 90,
+      "table": "mensajes_contacto",
+      "title": "Crear registro",
+      "method": "POST",
+      "path": "/api/mensajes-contacto",
+      "requestedAt": "2026-11-23T18:57:57.619Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_atiende": 6,
+          "nombre": "Cliente mwtmow7y",
+          "email": "cliente.mwtmow7y@example.test",
+          "mensaje": "¿Qué café recomiendan para preparar en V60?"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/mensajes-contacto/7"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro creado correctamente.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": 6,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Nuevo",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": null,
+            "fecha_respuesta": null
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 3.91
+    },
+    {
+      "id": 91,
+      "table": "mensajes_contacto",
+      "title": "Consultar por identificador",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:57.622Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": 6,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Nuevo",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": null,
+            "fecha_respuesta": null
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 3.14
+    },
+    {
+      "id": 92,
+      "table": "mensajes_contacto",
+      "title": "Listar registros",
+      "method": "GET",
+      "path": "/api/mensajes-contacto?limit=100&offset=0",
+      "requestedAt": "2026-11-23T18:57:57.623Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Consulta realizada correctamente.",
+          "data": [
+            {
+              "id_mensaje": 1,
+              "id_usuario_atiende": null,
+              "nombre": "Sofía Mendoza",
+              "email": "sofia.mendoza@correo.com",
+              "mensaje": "¿Qué molienda recomiendan para prensa francesa?",
+              "estado": "Nuevo",
+              "fecha_envio": "2026-10-28 08:45:00",
+              "respuesta": null,
+              "fecha_respuesta": null
+            },
+            {
+              "id_mensaje": 2,
+              "id_usuario_atiende": null,
+              "nombre": "Diego Ramírez",
+              "email": "diego.ramirez@correo.com",
+              "mensaje": "Quisiera unir mi cafetería a la lista de aliadas.",
+              "estado": "Nuevo",
+              "fecha_envio": "2026-10-29 14:10:00",
+              "respuesta": null,
+              "fecha_respuesta": null
+            },
+            {
+              "id_mensaje": 3,
+              "id_usuario_atiende": 2,
+              "nombre": "Paula Vargas",
+              "email": "paula.vargas@correo.com",
+              "mensaje": "¿Dónde puedo probar el café de Oxapampa?",
+              "estado": "En proceso",
+              "fecha_envio": "2026-10-30 09:30:00",
+              "respuesta": null,
+              "fecha_respuesta": null
+            },
+            {
+              "id_mensaje": 4,
+              "id_usuario_atiende": null,
+              "nombre": "Jorge Salazar",
+              "email": "jorge.salazar@correo.com",
+              "mensaje": "Me interesa una cata para mi equipo de trabajo.",
+              "estado": "Nuevo",
+              "fecha_envio": "2026-10-31 17:05:00",
+              "respuesta": null,
+              "fecha_respuesta": null
+            },
+            {
+              "id_mensaje": 5,
+              "id_usuario_atiende": 2,
+              "nombre": "Karen Torres",
+              "email": "karen.torres@correo.com",
+              "mensaje": "¿Cuál es la diferencia entre proceso lavado y natural?",
+              "estado": "Respondido",
+              "fecha_envio": "2026-10-25 11:00:00",
+              "respuesta": "El lavado resalta la acidez y la limpieza; el natural da más dulzor y notas frutales. Pronto lo explicaremos en la web.",
+              "fecha_respuesta": "2026-10-26 10:20:00"
+            },
+            {
+              "id_mensaje": 6,
+              "id_usuario_atiende": null,
+              "nombre": "Luis Fernández",
+              "email": "luis.fernandez@correo.com",
+              "mensaje": "¿Tienen granos orgánicos disponibles?",
+              "estado": "Nuevo",
+              "fecha_envio": "2026-11-01 19:40:00",
+              "respuesta": null,
+              "fecha_respuesta": null
+            },
+            {
+              "id_mensaje": 7,
+              "id_usuario_atiende": 6,
+              "nombre": "Cliente mwtmow7y",
+              "email": "cliente.mwtmow7y@example.test",
+              "mensaje": "¿Qué café recomiendan para preparar en V60?",
+              "estado": "Nuevo",
+              "fecha_envio": "2026-11-23 13:57:57",
+              "respuesta": null,
+              "fecha_respuesta": null
+            }
+          ],
+          "pagination": {
+            "limit": 100,
+            "offset": 0,
+            "count": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.97
+    },
+    {
+      "id": 93,
+      "table": "mensajes_contacto",
+      "title": "Actualizar parcialmente",
+      "method": "PATCH",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:57.626Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "estado": "Respondido",
+          "respuesta": "Recomendamos un café lavado de tueste medio.",
+          "fecha_respuesta": "2026-11-23 15:30:00"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": 6,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Respondido",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": "Recomendamos un café lavado de tueste medio.",
+            "fecha_respuesta": "2026-11-23 15:30:00"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.82
+    },
+    {
+      "id": 94,
+      "table": "mensajes_contacto",
+      "title": "Verificar actualización persistida",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:57.626Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": 6,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Respondido",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": "Recomendamos un café lavado de tueste medio.",
+            "fecha_respuesta": "2026-11-23 15:30:00"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.79
+    },
+    {
+      "id": 95,
+      "table": "mensajes_contacto",
+      "title": "Actualizar con los mismos valores",
+      "method": "PATCH",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:57.628Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "estado": "Respondido",
+          "respuesta": "Recomendamos un café lavado de tueste medio.",
+          "fecha_respuesta": "2026-11-23 15:30:00"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": 6,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Respondido",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": "Recomendamos un café lavado de tueste medio.",
+            "fecha_respuesta": "2026-11-23 15:30:00"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.28
+    },
+    {
+      "id": 96,
+      "table": "mensajes_contacto",
+      "title": "Rechazar creación vacía",
+      "method": "POST",
+      "path": "/api/mensajes-contacto",
+      "requestedAt": "2026-11-23T18:57:57.629Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "nombre",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "email",
+              "message": "Este campo es obligatorio."
+            },
+            {
+              "field": "mensaje",
+              "message": "Este campo es obligatorio."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.82
+    },
+    {
+      "id": 97,
+      "table": "mensajes_contacto",
+      "title": "Rechazar actualización vacía",
+      "method": "PATCH",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:57.629Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "body",
+              "message": "Envía al menos un campo para actualizar."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.95
+    },
+    {
+      "id": 98,
+      "table": "mensajes_contacto",
+      "title": "Rechazar identificador inválido",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/0",
+      "requestedAt": "2026-11-23T18:57:57.630Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_mensaje",
+              "message": "Debe ser un número entero entre 1 y 4294967295."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.62
+    },
+    {
+      "id": 99,
+      "table": "mensajes_contacto",
+      "title": "Consultar identificador inexistente",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/4294967295",
+      "requestedAt": "2026-11-23T18:57:57.631Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Mensaje de contacto no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.64
+    },
+    {
+      "id": 100,
+      "table": "mensajes_contacto",
+      "title": "Rechazar paginación inválida",
+      "method": "GET",
+      "path": "/api/mensajes-contacto?limit=0",
+      "requestedAt": "2026-11-23T18:57:57.631Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "limit",
+              "message": "Debe ser un número entero entre 1 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.52
+    },
+    {
+      "id": 101,
+      "table": "roles",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:57.633Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Prueba mwtmow7y",
+          "descripcion": "Rol temporal de demostración"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.95
+    },
+    {
+      "id": 102,
+      "table": "usuarios",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/usuarios",
+      "requestedAt": "2026-11-23T18:57:57.932Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_rol": 4,
+          "nombre": "Usuario mwtmow7y",
+          "email": "api.mwtmow7y@example.test",
+          "password": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 298.87
+    },
+    {
+      "id": 103,
+      "table": "zonas_origen",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/zonas-origen",
+      "requestedAt": "2026-11-23T18:57:57.934Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Zona mwtmow7y",
+          "categoria": "Orgánico",
+          "region": "Cajamarca",
+          "altitud_min": 1200,
+          "altitud_max": 1800,
+          "perfil_sabor": "Notas de cacao y frutos rojos"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 2.03
+    },
+    {
+      "id": 104,
+      "table": "productores",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/productores",
+      "requestedAt": "2026-11-23T18:57:57.936Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_zona": 7,
+          "nombre": "Productor mwtmow7y",
+          "telefono": "900000001",
+          "email": "productor.mwtmow7y@example.test",
+          "certificacion_organica": true
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.48
+    },
+    {
+      "id": 105,
+      "table": "granos",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/granos",
+      "requestedAt": "2026-11-23T18:57:57.937Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_productor": 7,
+          "nombre": "Grano mwtmow7y",
+          "variedad": "Caturra",
+          "proceso": "Lavado",
+          "tueste": "Medio",
+          "puntaje_taza": 85.5,
+          "precio_kg": 65.5,
+          "stock_kg": 10
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.42
+    },
+    {
+      "id": 106,
+      "table": "metodos_preparacion",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/metodos-preparacion",
+      "requestedAt": "2026-11-23T18:57:57.939Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Método mwtmow7y",
+          "descripcion": "Método de prueba por filtrado",
+          "proporcion": "1:15",
+          "temperatura_c": 92,
+          "tiempo_seg": 180,
+          "molienda": "Media",
+          "dificultad": "Fácil"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.43
+    },
+    {
+      "id": 107,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/cafeterias-aliadas",
+      "requestedAt": "2026-11-23T18:57:57.940Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_resp": 6,
+          "nombre": "Cafetería mwtmow7y",
+          "ciudad": "Lima",
+          "direccion": "Calle de prueba 100",
+          "fecha_alianza": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.65
+    },
+    {
+      "id": 108,
+      "table": "cafeteria_grano",
+      "title": "Rechazar duplicado",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:57.941Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 5,
+          "id_grano": 9,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ya existe un registro con ese valor único o con esa relación."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 0.86
+    },
+    {
+      "id": 109,
+      "table": "usuarios",
+      "title": "Rechazar referencia inexistente: id_rol",
+      "method": "POST",
+      "path": "/api/usuarios",
+      "requestedAt": "2026-11-23T18:57:58.237Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_rol": 255,
+          "nombre": "Sin FK mwtmow7y",
+          "email": "fk.mwtmow7y@example.test",
+          "password": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 295.4
+    },
+    {
+      "id": 110,
+      "table": "productores",
+      "title": "Rechazar referencia inexistente: id_zona",
+      "method": "POST",
+      "path": "/api/productores",
+      "requestedAt": "2026-11-23T18:57:58.238Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_zona": 65535,
+          "nombre": "Sin FK mwtmow7y",
+          "telefono": "900000001",
+          "email": "fk.mwtmow7y@example.test",
+          "certificacion_organica": true
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.84
+    },
+    {
+      "id": 111,
+      "table": "granos",
+      "title": "Rechazar referencia inexistente: id_productor",
+      "method": "POST",
+      "path": "/api/granos",
+      "requestedAt": "2026-11-23T18:57:58.240Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_productor": 4294967295,
+          "nombre": "Sin FK mwtmow7y",
+          "variedad": "Caturra",
+          "proceso": "Lavado",
+          "tueste": "Medio",
+          "puntaje_taza": 85.5,
+          "precio_kg": 65.5,
+          "stock_kg": 10
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.39
+    },
+    {
+      "id": 112,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar referencia inexistente: id_usuario_resp",
+      "method": "POST",
+      "path": "/api/cafeterias-aliadas",
+      "requestedAt": "2026-11-23T18:57:58.241Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_resp": 4294967295,
+          "nombre": "Sin FK mwtmow7y",
+          "ciudad": "Lima",
+          "direccion": "Calle de prueba 100",
+          "fecha_alianza": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.45
+    },
+    {
+      "id": 113,
+      "table": "cafeteria_grano",
+      "title": "Rechazar referencia inexistente: id_cafeteria",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:58.242Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 4294967295,
+          "id_grano": 9,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.01
+    },
+    {
+      "id": 114,
+      "table": "cafeteria_grano",
+      "title": "Rechazar referencia inexistente: id_grano",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:58.244Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 5,
+          "id_grano": 4294967295,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.68
+    },
+    {
+      "id": 115,
+      "table": "mensajes_contacto",
+      "title": "Rechazar referencia inexistente: id_usuario_atiende",
+      "method": "POST",
+      "path": "/api/mensajes-contacto",
+      "requestedAt": "2026-11-23T18:57:58.246Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_atiende": 4294967295,
+          "nombre": "Sin FK mwtmow7y",
+          "email": "fk.mwtmow7y@example.test",
+          "mensaje": "¿Qué café recomiendan para preparar en V60?"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "La referencia indicada no existe. Revisa los identificadores relacionados."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.54
+    },
+    {
+      "id": 116,
+      "table": "roles",
+      "title": "Respetar ON DELETE RESTRICT",
+      "method": "DELETE",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:58.247Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "No se puede eliminar el registro porque otros registros dependen de él."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.79
+    },
+    {
+      "id": 117,
+      "table": "zonas_origen",
+      "title": "Respetar ON DELETE RESTRICT",
+      "method": "DELETE",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:58.249Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "No se puede eliminar el registro porque otros registros dependen de él."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.54
+    },
+    {
+      "id": 118,
+      "table": "productores",
+      "title": "Respetar ON DELETE RESTRICT",
+      "method": "DELETE",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:58.250Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "No se puede eliminar el registro porque otros registros dependen de él."
+        }
+      },
+      "expectedStatus": 409,
+      "passed": true,
+      "durationMs": 1.38
+    },
+    {
+      "id": 119,
+      "table": "zonas_origen",
+      "title": "Validar altitudes sobre PATCH parcial",
+      "method": "PATCH",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:58.251Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "altitud_min": 2200
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "altitud_max",
+              "message": "Debe ser mayor o igual que altitud_min."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.93
+    },
+    {
+      "id": 120,
+      "table": "granos",
+      "title": "Validar precio, stock, precisión y tipo",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:58.252Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "precio_kg": 0
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "precio_kg",
+              "message": "Debe estar entre 0.01 y 999999.99."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.91
+    },
+    {
+      "id": 121,
+      "table": "granos",
+      "title": "Validar precio, stock, precisión y tipo",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:58.254Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "stock_kg": -1
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "stock_kg",
+              "message": "Debe estar entre 0 y 999999.99."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.14
+    },
+    {
+      "id": 122,
+      "table": "granos",
+      "title": "Validar precio, stock, precisión y tipo",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:58.255Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "precio_kg": 1.234
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "precio_kg",
+              "message": "Debe tener como máximo 2 decimales."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 123,
+      "table": "granos",
+      "title": "Validar precio, stock, precisión y tipo",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:58.256Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "puntaje_taza": 100.1
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "puntaje_taza",
+              "message": "Debe estar entre 0 y 100."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.93
+    },
+    {
+      "id": 124,
+      "table": "granos",
+      "title": "Validar precio, stock, precisión y tipo",
+      "method": "PATCH",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:58.257Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "precio_kg": "40"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "precio_kg",
+              "message": "Debe ser un número JSON, sin comillas."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.53
+    },
+    {
+      "id": 125,
+      "table": "usuarios",
+      "title": "Rechazar correo inválido",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:58.258Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "sin-correo"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "email",
+              "message": "Debe ser un correo electrónico válido."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.06
+    },
+    {
+      "id": 126,
+      "table": "usuarios",
+      "title": "Rechazar escritura directa del hash",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:58.259Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "password_hash": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "password_hash",
+              "message": "Campo no permitido o de solo lectura."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.84
+    },
+    {
+      "id": 127,
+      "table": "usuarios",
+      "title": "Rechazar fecha de registro manual",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:58.260Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fecha_registro": "2026-11-23 10:00:00"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "fecha_registro",
+              "message": "Campo no permitido o de solo lectura."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.88
+    },
+    {
+      "id": 128,
+      "table": "usuarios",
+      "title": "Rechazar contraseña corta",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:58.262Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "password": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "password",
+              "message": "Debe tener al menos 8 caracteres y como máximo 72 bytes UTF-8."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 2.44
+    },
+    {
+      "id": 129,
+      "table": "usuarios",
+      "title": "Actualizar contraseña sin exponerla",
+      "method": "PATCH",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:58.851Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "password": "[OCULTO: dato de prueba]"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_usuario": 6,
+            "id_rol": 4,
+            "nombre": "Usuario actualizado",
+            "email": "api.mwtmow7y@example.test",
+            "activo": 1,
+            "fecha_registro": "2026-11-23 13:57:57"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 294.78
+    },
+    {
+      "id": 130,
+      "table": "mensajes_contacto",
+      "title": "Rechazar Respondido sin respuesta completa",
+      "method": "POST",
+      "path": "/api/mensajes-contacto",
+      "requestedAt": "2026-11-23T18:57:59.143Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_usuario_atiende": 6,
+          "nombre": "Cliente mwtmow7y",
+          "email": "cliente.mwtmow7y@example.test",
+          "mensaje": "¿Qué café recomiendan para preparar en V60?",
+          "estado": "Respondido"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "respuesta",
+              "message": "Es obligatoria cuando el estado es Respondido."
+            },
+            {
+              "field": "fecha_respuesta",
+              "message": "Es obligatoria y debe ser válida cuando el estado es Respondido."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.62
+    },
+    {
+      "id": 131,
+      "table": "mensajes_contacto",
+      "title": "Rechazar borrar respuesta de mensaje respondido",
+      "method": "PATCH",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:59.144Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "respuesta": null
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "respuesta",
+              "message": "Es obligatoria cuando el estado es Respondido."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.17
+    },
+    {
+      "id": 132,
+      "table": "cafeterias_aliadas",
+      "title": "Rechazar fecha inexistente",
+      "method": "PATCH",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:59.146Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "fecha_alianza": "2026-02-30"
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "fecha_alianza",
+              "message": "Debe ser una fecha real con formato YYYY-MM-DD (año 1000 a 9999)."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.09
+    },
+    {
+      "id": 133,
+      "table": "cafeteria_grano",
+      "title": "Mantener clave compuesta inmutable",
+      "method": "PATCH",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:59.147Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_grano": 1
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_grano",
+              "message": "Campo no permitido o de solo lectura."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.01
+    },
+    {
+      "id": 134,
+      "table": "roles",
+      "title": "Rechazar campo desconocido",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:59.147Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "Campo mwtmow7y",
+          "otro": true
+        }
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "otro",
+              "message": "Campo no permitido o de solo lectura."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.73
+    },
+    {
+      "id": 135,
+      "table": "roles",
+      "title": "Rechazar ID con expresión SQL",
+      "method": "GET",
+      "path": "/api/roles/1%20OR%201%3D1",
+      "requestedAt": "2026-11-23T18:57:59.148Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "id_rol",
+              "message": "Debe ser un número entero entre 1 y 255."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.54
+    },
+    {
+      "id": 136,
+      "table": "roles",
+      "title": "Rechazar parámetro de consulta desconocido",
+      "method": "GET",
+      "path": "/api/roles?sort=nombre",
+      "requestedAt": "2026-11-23T18:57:59.148Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Datos inválidos. Revisa los campos indicados.",
+          "errors": [
+            {
+              "field": "sort",
+              "message": "Parámetro no permitido. Usa limit y offset."
+            }
+          ]
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 0.58
+    },
+    {
+      "id": 137,
+      "table": "roles",
+      "title": "Guardar comillas como texto mediante parámetros",
+      "method": "PATCH",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:59.151Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "descripcion": "O'Reilly; DROP TABLE roles; --"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro actualizado correctamente.",
+          "data": {
+            "id_rol": 4,
+            "nombre": "Prueba mwtmow7y",
+            "descripcion": "O'Reilly; DROP TABLE roles; --"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 2.17
+    },
+    {
+      "id": 138,
+      "table": "sistema",
+      "title": "Rechazar JSON mal formado",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:59.152Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"nombre\":"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "El cuerpo contiene JSON inválido. Revisa comillas, comas y llaves."
+        }
+      },
+      "expectedStatus": 400,
+      "passed": true,
+      "durationMs": 1.56
+    },
+    {
+      "id": 139,
+      "table": "sistema",
+      "title": "Rechazar Content-Type incorrecto",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:59.153Z",
+      "request": {
+        "headers": {
+          "Content-Type": "text/plain"
+        },
+        "body": "{}"
+      },
+      "response": {
+        "status": 415,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Envía el cuerpo en JSON con Content-Type: application/json."
+        }
+      },
+      "expectedStatus": 415,
+      "passed": true,
+      "durationMs": 1.02
+    },
+    {
+      "id": 140,
+      "table": "sistema",
+      "title": "Rechazar cuerpo excesivo",
+      "method": "POST",
+      "path": "/api/roles",
+      "requestedAt": "2026-11-23T18:57:59.155Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "nombre": "[34 000 caracteres: prueba del límite de cuerpo]"
+        }
+      },
+      "response": {
+        "status": 413,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "El cuerpo de la solicitud supera el máximo de 32 KB."
+        }
+      },
+      "expectedStatus": 413,
+      "passed": true,
+      "durationMs": 1.46
+    },
+    {
+      "id": 141,
+      "table": "sistema",
+      "title": "Ruta inexistente",
+      "method": "GET",
+      "path": "/api/no-existe",
+      "requestedAt": "2026-11-23T18:57:59.156Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Ruta no encontrada. Revisa la dirección y el método HTTP."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.7
+    },
+    {
+      "id": 142,
+      "table": "cafeteria_grano",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:59.158Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación eliminada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.85
+    },
+    {
+      "id": 143,
+      "table": "cafeteria_grano",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:59.158Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Relación cafetería-grano no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.84
+    },
+    {
+      "id": 144,
+      "table": "cafeteria_grano",
+      "title": "Preparar comprobación CASCADE de grano",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:59.160Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 5,
+          "id_grano": 9,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/cafeteria-grano/5/9"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación creada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 9,
+            "fecha_inicio": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 1.56
+    },
+    {
+      "id": 145,
+      "table": "granos",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:59.162Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_grano": 9
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.56
+    },
+    {
+      "id": 146,
+      "table": "granos",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/granos/9",
+      "requestedAt": "2026-11-23T18:57:59.162Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Grano no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.66
+    },
+    {
+      "id": 147,
+      "table": "cafeteria_grano",
+      "title": "ON DELETE CASCADE desde granos",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/5/9",
+      "requestedAt": "2026-11-23T18:57:59.163Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Relación cafetería-grano no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.62
+    },
+    {
+      "id": 148,
+      "table": "usuarios",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:59.165Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_usuario": 6
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.71
+    },
+    {
+      "id": 149,
+      "table": "usuarios",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/usuarios/6",
+      "requestedAt": "2026-11-23T18:57:59.165Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Usuario no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.82
+    },
+    {
+      "id": 150,
+      "table": "cafeterias_aliadas",
+      "title": "Comprobar ON DELETE SET NULL",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:59.166Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_usuario_resp": null,
+            "nombre": "Cafetería mwtmow7y",
+            "ciudad": "Lima",
+            "direccion": "Calle de prueba 100",
+            "telefono": "900000003",
+            "email": null,
+            "estado": "Activa",
+            "fecha_alianza": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.65
+    },
+    {
+      "id": 151,
+      "table": "mensajes_contacto",
+      "title": "Comprobar ON DELETE SET NULL",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:59.167Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro encontrado.",
+          "data": {
+            "id_mensaje": 7,
+            "id_usuario_atiende": null,
+            "nombre": "Cliente mwtmow7y",
+            "email": "cliente.mwtmow7y@example.test",
+            "mensaje": "¿Qué café recomiendan para preparar en V60?",
+            "estado": "Respondido",
+            "fecha_envio": "2026-11-23 13:57:57",
+            "respuesta": "Recomendamos un café lavado de tueste medio.",
+            "fecha_respuesta": "2026-11-23 15:30:00"
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 0.64
+    },
+    {
+      "id": 152,
+      "table": "cafeteria_grano",
+      "title": "Preparar comprobación CASCADE de cafetería",
+      "method": "POST",
+      "path": "/api/cafeteria-grano",
+      "requestedAt": "2026-11-23T18:57:59.168Z",
+      "request": {
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id_cafeteria": 5,
+          "id_grano": 1,
+          "fecha_inicio": "2026-11-23"
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json; charset=utf-8",
+          "location": "/api/cafeteria-grano/5/1"
+        },
+        "body": {
+          "success": true,
+          "message": "Relación creada correctamente.",
+          "data": {
+            "id_cafeteria": 5,
+            "id_grano": 1,
+            "fecha_inicio": "2026-11-23"
+          }
+        }
+      },
+      "expectedStatus": 201,
+      "passed": true,
+      "durationMs": 1.46
+    },
+    {
+      "id": 153,
+      "table": "cafeterias_aliadas",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:59.170Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_cafeteria": 5
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.37
+    },
+    {
+      "id": 154,
+      "table": "cafeterias_aliadas",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/cafeterias-aliadas/5",
+      "requestedAt": "2026-11-23T18:57:59.170Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Cafetería aliada no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.78
+    },
+    {
+      "id": 155,
+      "table": "cafeteria_grano",
+      "title": "ON DELETE CASCADE desde cafeterías",
+      "method": "GET",
+      "path": "/api/cafeteria-grano/5/1",
+      "requestedAt": "2026-11-23T18:57:59.171Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Relación cafetería-grano no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.85
+    },
+    {
+      "id": 156,
+      "table": "mensajes_contacto",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:59.173Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_mensaje": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.37
+    },
+    {
+      "id": 157,
+      "table": "mensajes_contacto",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/mensajes-contacto/7",
+      "requestedAt": "2026-11-23T18:57:59.173Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Mensaje de contacto no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.73
+    },
+    {
+      "id": 158,
+      "table": "metodos_preparacion",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:59.175Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_metodo": 5
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.42
+    },
+    {
+      "id": 159,
+      "table": "metodos_preparacion",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/metodos-preparacion/5",
+      "requestedAt": "2026-11-23T18:57:59.175Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Método de preparación no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.65
+    },
+    {
+      "id": 160,
+      "table": "productores",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:59.177Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_productor": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.14
+    },
+    {
+      "id": 161,
+      "table": "productores",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/productores/7",
+      "requestedAt": "2026-11-23T18:57:59.177Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Productor no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.77
+    },
+    {
+      "id": 162,
+      "table": "zonas_origen",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:59.179Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_zona": 7
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.18
+    },
+    {
+      "id": 163,
+      "table": "zonas_origen",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/zonas-origen/7",
+      "requestedAt": "2026-11-23T18:57:59.179Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Zona de origen no encontrada."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 0.58
+    },
+    {
+      "id": 164,
+      "table": "roles",
+      "title": "Eliminar registro",
+      "method": "DELETE",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:59.180Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": true,
+          "message": "Registro eliminado correctamente.",
+          "data": {
+            "id_rol": 4
+          }
+        }
+      },
+      "expectedStatus": 200,
+      "passed": true,
+      "durationMs": 1.08
+    },
+    {
+      "id": 165,
+      "table": "roles",
+      "title": "Consultar después de eliminar",
+      "method": "GET",
+      "path": "/api/roles/4",
+      "requestedAt": "2026-11-23T18:57:59.182Z",
+      "request": {
+        "headers": {}
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "success": false,
+          "message": "Rol no encontrado."
+        }
+      },
+      "expectedStatus": 404,
+      "passed": true,
+      "durationMs": 1.2
+    }
+  ],
+  "checks": [
+    {
+      "name": "roles: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "roles: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "roles: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "roles: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "roles: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "roles: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "usuarios: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "usuarios: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "usuarios: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "usuarios: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "usuarios: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "usuarios: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "zonas_origen: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "productores: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "productores: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "productores: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "productores: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "productores: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "productores: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "granos: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "granos: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "granos: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "granos: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "granos: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "granos: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "metodos_preparacion: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "cafeteria_grano: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: Location identifica el recurso creado",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: POST persiste todos los campos enviados",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: GET recupera el registro creado",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: listado incluye el nuevo registro",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: PATCH actualiza los valores enviados",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: modificación persiste en MySQL",
+      "passed": true
+    },
+    {
+      "name": "usuarios: contraseña creada almacenada como bcrypt verificable",
+      "passed": true
+    },
+    {
+      "name": "usuarios: nueva contraseña almacenada como bcrypt verificable",
+      "passed": true
+    },
+    {
+      "name": "Consultas parametrizadas conservan el texto literal",
+      "passed": true
+    },
+    {
+      "name": "cafeterias_aliadas: conserva el registro con referencia nula",
+      "passed": true
+    },
+    {
+      "name": "mensajes_contacto: conserva el registro con referencia nula",
+      "passed": true
+    },
+    {
+      "name": "Los registros originales permanecen intactos; se retiraron todos los datos temporales",
+      "passed": true
+    },
+    {
+      "name": "Hay exactamente dos evidencias seleccionadas por cada uno de los nueve módulos",
+      "passed": true
+    },
+    {
+      "name": "Las 45 operaciones CRUD están verificadas",
+      "passed": true
+    }
+  ],
+  "selectedEvidence": [
+    2,
+    3,
+    13,
+    14,
+    24,
+    25,
+    35,
+    36,
+    46,
+    47,
+    57,
+    58,
+    68,
+    69,
+    79,
+    80,
+    90,
+    91
+  ],
+  "databaseVersion": "8.4.13",
+  "initialRows": {
+    "roles": 3,
+    "usuarios": 5,
+    "zonas_origen": 6,
+    "productores": 6,
+    "granos": 8,
+    "metodos_preparacion": 4,
+    "cafeterias_aliadas": 4,
+    "cafeteria_grano": 8,
+    "mensajes_contacto": 6
+  },
+  "baseUrl": "http://127.0.0.1:43559",
+  "crudCoverage": [
+    {
+      "table": "roles",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "usuarios",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "zonas_origen",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "productores",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "granos",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "metodos_preparacion",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "cafeterias_aliadas",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "cafeteria_grano",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "table": "mensajes_contacto",
+      "operations": [
+        {
+          "operation": "Crear registro",
+          "passed": true
+        },
+        {
+          "operation": "Listar registros",
+          "passed": true
+        },
+        {
+          "operation": "Consultar por identificador",
+          "passed": true
+        },
+        {
+          "operation": "Actualizar parcialmente",
+          "passed": true
+        },
+        {
+          "operation": "Eliminar registro",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "finishedAt": "2026-11-23T18:57:59.186Z",
+  "summary": {
+    "passed": true,
+    "httpRequests": 165,
+    "passedRequests": 165,
+    "assertions": 62,
+    "passedAssertions": 62,
+    "crudOperations": 45,
+    "selectedEvidence": 18
+  }
+}

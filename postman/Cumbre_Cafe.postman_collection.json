@@ -1,0 +1,3094 @@
+{
+  "info": {
+    "name": "Cumbre Café — API MVC completa (45 endpoints)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "# Cumbre Café — nueve módulos y CRUD completo\n\nImporta esta colección y Local.postman_environment.json; selecciona el entorno Local. Inicia la API y usa Collection Runner para ejecutar la colección completa, en el orden original, con una iteración.\n\n**Fase 1:** nueve módulos, cada uno con POST, GET por ID, GET de listado y PATCH (36 solicitudes). **Fase 2:** nueve DELETE en orden inverso de dependencias. Se evitan eliminaciones prematuras de roles, usuarios, zonas, productores o granos.\n\nCada ejecución comienza en POST Roles: crea una etiqueta única, limpia los identificadores anteriores y captura los nuevos IDs desde las respuestas. No hay IDs fijos para eliminar datos de la carga inicial. Un módulo aislado necesita que sus padres hayan sido creados en esta misma ejecución. No modifiques los IDs de la colección ni los sustituyas por datos reales.\n\nUsa una base local de demostración. Una ejecución satisfactoria elimina al final sus propios registros. Si interrumpes la ejecución, reanuda la fase de limpieza antes de comenzar otra. Una respuesta fallida conserva su identificador para facilitar el diagnóstico y la limpieza.\n\nPATCH realiza actualizaciones parciales. cafeteria_grano utiliza la clave compuesta id_cafeteria/id_grano; únicamente fecha_inicio puede modificarse. Los números de los JSON se envían sin comillas. Las contraseñas de ejemplo son ficticias y solo se envían a la API local; nunca aparecen en las respuestas.\n\nLas pruebas verifican HTTP 201/200, success, mensajes, identificadores, campos guardados, paginación y ausencia de contraseñas/hash. Para la evidencia del docente, selecciona las dos primeras solicitudes (POST y GET por ID) de cada módulo.\n\nDocumentación oficial de las variables y scripts de Postman: https://learning.postman.com/docs/tests-and-scripts/write-scripts/postman-sandbox-reference/pm-variables/ y https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts/."
+  },
+  "variable": [
+    {
+      "key": "runTag",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "roles_id_rol",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "usuarios_id_usuario",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "zonas_origen_id_zona",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productores_id_productor",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "granos_id_grano",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "metodos_preparacion_id_metodo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cafeterias_aliadas_id_cafeteria",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cafeteria_grano_id_cafeteria",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cafeteria_grano_id_grano",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "mensajes_contacto_id_mensaje",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Creación, consultas y actualización",
+      "item": [
+        {
+          "name": "Roles",
+          "description": "Tabla: roles. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "01 POST — Crear · Roles",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/roles",
+                "description": "Roles — tabla roles.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Prueba {{runTag}}\",\n  \"descripcion\": \"Rol temporal de demostración\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Se ejecuta una vez al inicio de cada iteración completa de Collection Runner.",
+                      "const ids = [\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "ids.forEach(name => pm.collectionVariables.unset(name));",
+                      "const tag = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);",
+                      "pm.collectionVariables.set('runTag', tag);",
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_rol', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_rol)).to.eql(true);",
+                      "  pm.expect(response.data.id_rol).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_rol) && response.data.id_rol > 0) {",
+                      "  pm.collectionVariables.set('roles_id_rol', String(response.data.id_rol));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "02 GET — Consultar por identificador · Roles",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/roles/{{roles_id_rol}}",
+                "description": "Roles — tabla roles.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"roles_id_rol\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_rol', () => {",
+                      "  pm.expect(response.data.id_rol).to.eql(Number(pm.collectionVariables.get('roles_id_rol')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "03 GET — Listar · Roles",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/roles",
+                "description": "Roles — tabla roles.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "04 PATCH — Actualizar parcialmente · Roles",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/roles/{{roles_id_rol}}",
+                "description": "Roles — tabla roles.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"descripcion\": \"Rol actualizado mediante PATCH\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"roles_id_rol\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_rol', () => {",
+                      "  pm.expect(response.data.id_rol).to.eql(Number(pm.collectionVariables.get('roles_id_rol')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Usuarios",
+          "description": "Tabla: usuarios. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "05 POST — Crear · Usuarios",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/usuarios",
+                "description": "Usuarios — tabla usuarios.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_rol\": {{roles_id_rol}},\n  \"nombre\": \"Usuario {{runTag}}\",\n  \"email\": \"api.{{runTag}}@example.test\",\n  \"password\": \"DemoCafe_{{runTag}}!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"roles_id_rol\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_usuario', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_usuario)).to.eql(true);",
+                      "  pm.expect(response.data.id_usuario).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_usuario) && response.data.id_usuario > 0) {",
+                      "  pm.collectionVariables.set('usuarios_id_usuario', String(response.data.id_usuario));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});",
+                      "pm.test('La API nunca devuelve contraseñas ni hashes', () => {",
+                      "  const rows = Array.isArray(response.data) ? response.data : [response.data];",
+                      "  rows.forEach(row => {",
+                      "    pm.expect(row).not.to.have.property('password');",
+                      "    pm.expect(row).not.to.have.property('password_hash');",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "06 GET — Consultar por identificador · Usuarios",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/usuarios/{{usuarios_id_usuario}}",
+                "description": "Usuarios — tabla usuarios.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"usuarios_id_usuario\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_usuario', () => {",
+                      "  pm.expect(response.data.id_usuario).to.eql(Number(pm.collectionVariables.get('usuarios_id_usuario')));",
+                      "});",
+                      "pm.test('La API nunca devuelve contraseñas ni hashes', () => {",
+                      "  const rows = Array.isArray(response.data) ? response.data : [response.data];",
+                      "  rows.forEach(row => {",
+                      "    pm.expect(row).not.to.have.property('password');",
+                      "    pm.expect(row).not.to.have.property('password_hash');",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "07 GET — Listar · Usuarios",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/usuarios",
+                "description": "Usuarios — tabla usuarios.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});",
+                      "pm.test('La API nunca devuelve contraseñas ni hashes', () => {",
+                      "  const rows = Array.isArray(response.data) ? response.data : [response.data];",
+                      "  rows.forEach(row => {",
+                      "    pm.expect(row).not.to.have.property('password');",
+                      "    pm.expect(row).not.to.have.property('password_hash');",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "08 PATCH — Actualizar parcialmente · Usuarios",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/usuarios/{{usuarios_id_usuario}}",
+                "description": "Usuarios — tabla usuarios.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Usuario actualizado\",\n  \"activo\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"usuarios_id_usuario\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_usuario', () => {",
+                      "  pm.expect(response.data.id_usuario).to.eql(Number(pm.collectionVariables.get('usuarios_id_usuario')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});",
+                      "pm.test('La API nunca devuelve contraseñas ni hashes', () => {",
+                      "  const rows = Array.isArray(response.data) ? response.data : [response.data];",
+                      "  rows.forEach(row => {",
+                      "    pm.expect(row).not.to.have.property('password');",
+                      "    pm.expect(row).not.to.have.property('password_hash');",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Zonas de origen",
+          "description": "Tabla: zonas_origen. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "09 POST — Crear · Zonas de origen",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/zonas-origen",
+                "description": "Zonas de origen — tabla zonas_origen.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Zona {{runTag}}\",\n  \"categoria\": \"Orgánico\",\n  \"region\": \"Cajamarca\",\n  \"altitud_min\": 1200,\n  \"altitud_max\": 1800,\n  \"perfil_sabor\": \"Notas de cacao y frutos rojos\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_zona', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_zona)).to.eql(true);",
+                      "  pm.expect(response.data.id_zona).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_zona) && response.data.id_zona > 0) {",
+                      "  pm.collectionVariables.set('zonas_origen_id_zona', String(response.data.id_zona));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "10 GET — Consultar por identificador · Zonas de origen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/zonas-origen/{{zonas_origen_id_zona}}",
+                "description": "Zonas de origen — tabla zonas_origen.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"zonas_origen_id_zona\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_zona', () => {",
+                      "  pm.expect(response.data.id_zona).to.eql(Number(pm.collectionVariables.get('zonas_origen_id_zona')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "11 GET — Listar · Zonas de origen",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/zonas-origen",
+                "description": "Zonas de origen — tabla zonas_origen.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "12 PATCH — Actualizar parcialmente · Zonas de origen",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/zonas-origen/{{zonas_origen_id_zona}}",
+                "description": "Zonas de origen — tabla zonas_origen.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"altitud_max\": 1900,\n  \"descripcion\": \"Zona de prueba actualizada\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"zonas_origen_id_zona\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_zona', () => {",
+                      "  pm.expect(response.data.id_zona).to.eql(Number(pm.collectionVariables.get('zonas_origen_id_zona')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Productores",
+          "description": "Tabla: productores. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "13 POST — Crear · Productores",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/productores",
+                "description": "Productores — tabla productores.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_zona\": {{zonas_origen_id_zona}},\n  \"nombre\": \"Productor {{runTag}}\",\n  \"telefono\": \"900000001\",\n  \"email\": \"productor.{{runTag}}@example.test\",\n  \"certificacion_organica\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"zonas_origen_id_zona\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_productor', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_productor)).to.eql(true);",
+                      "  pm.expect(response.data.id_productor).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_productor) && response.data.id_productor > 0) {",
+                      "  pm.collectionVariables.set('productores_id_productor', String(response.data.id_productor));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "14 GET — Consultar por identificador · Productores",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/productores/{{productores_id_productor}}",
+                "description": "Productores — tabla productores.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"productores_id_productor\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_productor', () => {",
+                      "  pm.expect(response.data.id_productor).to.eql(Number(pm.collectionVariables.get('productores_id_productor')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "15 GET — Listar · Productores",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/productores",
+                "description": "Productores — tabla productores.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "16 PATCH — Actualizar parcialmente · Productores",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/productores/{{productores_id_productor}}",
+                "description": "Productores — tabla productores.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"telefono\": \"900000002\",\n  \"certificacion_organica\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"productores_id_productor\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_productor', () => {",
+                      "  pm.expect(response.data.id_productor).to.eql(Number(pm.collectionVariables.get('productores_id_productor')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Granos",
+          "description": "Tabla: granos. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "17 POST — Crear · Granos",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/granos",
+                "description": "Granos — tabla granos.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_productor\": {{productores_id_productor}},\n  \"nombre\": \"Grano {{runTag}}\",\n  \"variedad\": \"Caturra\",\n  \"proceso\": \"Lavado\",\n  \"tueste\": \"Medio\",\n  \"puntaje_taza\": 85.5,\n  \"precio_kg\": 65.5,\n  \"stock_kg\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"productores_id_productor\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_grano', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_grano)).to.eql(true);",
+                      "  pm.expect(response.data.id_grano).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_grano) && response.data.id_grano > 0) {",
+                      "  pm.collectionVariables.set('granos_id_grano', String(response.data.id_grano));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "18 GET — Consultar por identificador · Granos",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/granos/{{granos_id_grano}}",
+                "description": "Granos — tabla granos.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"granos_id_grano\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_grano', () => {",
+                      "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('granos_id_grano')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "19 GET — Listar · Granos",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/granos",
+                "description": "Granos — tabla granos.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "20 PATCH — Actualizar parcialmente · Granos",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/granos/{{granos_id_grano}}",
+                "description": "Granos — tabla granos.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"precio_kg\": 68.9,\n  \"stock_kg\": 12.5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"granos_id_grano\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_grano', () => {",
+                      "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('granos_id_grano')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Métodos de preparación",
+          "description": "Tabla: metodos_preparacion. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "21 POST — Crear · Métodos de preparación",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/metodos-preparacion",
+                "description": "Métodos de preparación — tabla metodos_preparacion.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Método {{runTag}}\",\n  \"descripcion\": \"Método de prueba por filtrado\",\n  \"proporcion\": \"1:15\",\n  \"temperatura_c\": 92,\n  \"tiempo_seg\": 180,\n  \"molienda\": \"Media\",\n  \"dificultad\": \"Fácil\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_metodo', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_metodo)).to.eql(true);",
+                      "  pm.expect(response.data.id_metodo).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_metodo) && response.data.id_metodo > 0) {",
+                      "  pm.collectionVariables.set('metodos_preparacion_id_metodo', String(response.data.id_metodo));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "22 GET — Consultar por identificador · Métodos de preparación",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/metodos-preparacion/{{metodos_preparacion_id_metodo}}",
+                "description": "Métodos de preparación — tabla metodos_preparacion.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"metodos_preparacion_id_metodo\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_metodo', () => {",
+                      "  pm.expect(response.data.id_metodo).to.eql(Number(pm.collectionVariables.get('metodos_preparacion_id_metodo')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "23 GET — Listar · Métodos de preparación",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/metodos-preparacion",
+                "description": "Métodos de preparación — tabla metodos_preparacion.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "24 PATCH — Actualizar parcialmente · Métodos de preparación",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/metodos-preparacion/{{metodos_preparacion_id_metodo}}",
+                "description": "Métodos de preparación — tabla metodos_preparacion.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"temperatura_c\": 94,\n  \"tiempo_seg\": 200\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"metodos_preparacion_id_metodo\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_metodo', () => {",
+                      "  pm.expect(response.data.id_metodo).to.eql(Number(pm.collectionVariables.get('metodos_preparacion_id_metodo')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Cafeterías aliadas",
+          "description": "Tabla: cafeterias_aliadas. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "25 POST — Crear · Cafeterías aliadas",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeterias-aliadas",
+                "description": "Cafeterías aliadas — tabla cafeterias_aliadas.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_usuario_resp\": {{usuarios_id_usuario}},\n  \"nombre\": \"Cafetería {{runTag}}\",\n  \"ciudad\": \"Lima\",\n  \"direccion\": \"Calle de prueba 100\",\n  \"fecha_alianza\": \"2026-11-23\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"usuarios_id_usuario\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_cafeteria', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_cafeteria)).to.eql(true);",
+                      "  pm.expect(response.data.id_cafeteria).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_cafeteria) && response.data.id_cafeteria > 0) {",
+                      "  pm.collectionVariables.set('cafeterias_aliadas_id_cafeteria', String(response.data.id_cafeteria));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "26 GET — Consultar por identificador · Cafeterías aliadas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeterias-aliadas/{{cafeterias_aliadas_id_cafeteria}}",
+                "description": "Cafeterías aliadas — tabla cafeterias_aliadas.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"cafeterias_aliadas_id_cafeteria\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                      "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeterias_aliadas_id_cafeteria')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "27 GET — Listar · Cafeterías aliadas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeterias-aliadas",
+                "description": "Cafeterías aliadas — tabla cafeterias_aliadas.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "28 PATCH — Actualizar parcialmente · Cafeterías aliadas",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeterias-aliadas/{{cafeterias_aliadas_id_cafeteria}}",
+                "description": "Cafeterías aliadas — tabla cafeterias_aliadas.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"Activa\",\n  \"telefono\": \"900000003\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"cafeterias_aliadas_id_cafeteria\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                      "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeterias_aliadas_id_cafeteria')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Relación cafetería-grano",
+          "description": "Tabla: cafeteria_grano. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "29 POST — Crear · Relación cafetería-grano",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeteria-grano",
+                "description": "Relación cafetería-grano — tabla cafeteria_grano.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_cafeteria\": {{cafeterias_aliadas_id_cafeteria}},\n  \"id_grano\": {{granos_id_grano}},\n  \"fecha_inicio\": \"2026-11-23\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"cafeterias_aliadas_id_cafeteria\",\"granos_id_grano\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_cafeteria', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_cafeteria)).to.eql(true);",
+                      "  pm.expect(response.data.id_cafeteria).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_cafeteria) && response.data.id_cafeteria > 0) {",
+                      "  pm.collectionVariables.set('cafeteria_grano_id_cafeteria', String(response.data.id_cafeteria));",
+                      "}",
+                      "pm.test('Identificador válido: id_grano', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_grano)).to.eql(true);",
+                      "  pm.expect(response.data.id_grano).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_grano) && response.data.id_grano > 0) {",
+                      "  pm.collectionVariables.set('cafeteria_grano_id_grano', String(response.data.id_grano));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "30 GET — Consultar por identificador · Relación cafetería-grano",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeteria-grano/{{cafeteria_grano_id_cafeteria}}/{{cafeteria_grano_id_grano}}",
+                "description": "Relación cafetería-grano — tabla cafeteria_grano.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                      "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_cafeteria')));",
+                      "});",
+                      "pm.test('Corresponde al registro creado: id_grano', () => {",
+                      "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_grano')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "31 GET — Listar · Relación cafetería-grano",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeteria-grano",
+                "description": "Relación cafetería-grano — tabla cafeteria_grano.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "32 PATCH — Actualizar parcialmente · Relación cafetería-grano",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/cafeteria-grano/{{cafeteria_grano_id_cafeteria}}/{{cafeteria_grano_id_grano}}",
+                "description": "Relación cafetería-grano — tabla cafeteria_grano.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fecha_inicio\": \"2026-11-24\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                      "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_cafeteria')));",
+                      "});",
+                      "pm.test('Corresponde al registro creado: id_grano', () => {",
+                      "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_grano')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Mensajes de contacto",
+          "description": "Tabla: mensajes_contacto. Cuatro operaciones aquí; su DELETE está en la fase 2 para no romper las dependencias. Para las evidencias mínimas se pueden presentar POST y GET por identificador.",
+          "item": [
+            {
+              "name": "33 POST — Crear · Mensajes de contacto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/mensajes-contacto",
+                "description": "Mensajes de contacto — tabla mensajes_contacto.\n\nCrea un registro ficticio y guarda los identificadores de la respuesta en variables de colección. Debe ejecutarse antes de las consultas por ID, PATCH y DELETE.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id_usuario_atiende\": {{usuarios_id_usuario}},\n  \"nombre\": \"Cliente {{runTag}}\",\n  \"email\": \"cliente.{{runTag}}@example.test\",\n  \"mensaje\": \"¿Qué café recomiendan para preparar en V60?\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"runTag\",\"usuarios_id_usuario\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 201', () => pm.response.to.have.status(201));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Identificador válido: id_mensaje', () => {",
+                      "  pm.expect(Number.isInteger(response.data.id_mensaje)).to.eql(true);",
+                      "  pm.expect(response.data.id_mensaje).to.be.above(0);",
+                      "});",
+                      "if (pm.response.code === 201 && response.success === true && Number.isInteger(response.data.id_mensaje) && response.data.id_mensaje > 0) {",
+                      "  pm.collectionVariables.set('mensajes_contacto_id_mensaje', String(response.data.id_mensaje));",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "34 GET — Consultar por identificador · Mensajes de contacto",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/mensajes-contacto/{{mensajes_contacto_id_mensaje}}",
+                "description": "Mensajes de contacto — tabla mensajes_contacto.\n\nConsulta exactamente el registro que creó el POST de este módulo. Para una relación cafetería-grano se utilizan los dos identificadores."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"mensajes_contacto_id_mensaje\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_mensaje', () => {",
+                      "  pm.expect(response.data.id_mensaje).to.eql(Number(pm.collectionVariables.get('mensajes_contacto_id_mensaje')));",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "35 GET — Listar · Mensajes de contacto",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/mensajes-contacto",
+                "description": "Mensajes de contacto — tabla mensajes_contacto.\n\nConsulta la primera página: 20 registros como máximo y desplazamiento 0. La API también acepta ?limit=10&offset=0."
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Lista y paginación coherentes', () => {",
+                      "  pm.expect(response.data).to.be.an('array');",
+                      "  pm.expect(response.pagination.limit).to.eql(20);",
+                      "  pm.expect(response.pagination.offset).to.eql(0);",
+                      "  pm.expect(response.pagination.count).to.eql(response.data.length);",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            },
+            {
+              "name": "36 PATCH — Actualizar parcialmente · Mensajes de contacto",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": "{{baseUrl}}/api/mensajes-contacto/{{mensajes_contacto_id_mensaje}}",
+                "description": "Mensajes de contacto — tabla mensajes_contacto.\n\nPATCH modifica únicamente los campos enviados; conserva los omitidos y respeta las relaciones y restricciones. Las claves primarias no se actualizan.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"Respondido\",\n  \"respuesta\": \"Recomendamos un café lavado de tueste medio.\",\n  \"fecha_respuesta\": \"2026-11-23 15:30:00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                      "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                      "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                      "const required = [\"mensajes_contacto_id_mensaje\"];",
+                      "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                      "if (missing.length) {",
+                      "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                      "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                      "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                      "const response = pm.response.json();",
+                      "pm.test('Respuesta comprensible y exitosa', () => {",
+                      "  pm.expect(response.success).to.eql(true);",
+                      "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                      "});",
+                      "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                      "pm.test('Corresponde al registro creado: id_mensaje', () => {",
+                      "  pm.expect(response.data.id_mensaje).to.eql(Number(pm.collectionVariables.get('mensajes_contacto_id_mensaje')));",
+                      "});",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "pm.test('Los campos enviados quedaron guardados', () => {",
+                      "  Object.entries(sent).forEach(([field, value]) => {",
+                      "    if (field === 'password') return;",
+                      "    const expected = typeof value === 'boolean' ? Number(value) : value;",
+                      "    pm.expect(response.data[field], field).to.eql(expected);",
+                      "  });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Limpieza — eliminar en orden inverso",
+      "item": [
+        {
+          "name": "37 DELETE — Eliminar · Mensajes de contacto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/mensajes-contacto/{{mensajes_contacto_id_mensaje}}",
+            "description": "Mensajes de contacto — tabla mensajes_contacto.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"mensajes_contacto_id_mensaje\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_mensaje', () => {",
+                  "  pm.expect(response.data.id_mensaje).to.eql(Number(pm.collectionVariables.get('mensajes_contacto_id_mensaje')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('mensajes_contacto_id_mensaje');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "38 DELETE — Eliminar · Relación cafetería-grano",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/cafeteria-grano/{{cafeteria_grano_id_cafeteria}}/{{cafeteria_grano_id_grano}}",
+            "description": "Relación cafetería-grano — tabla cafeteria_grano.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                  "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_cafeteria')));",
+                  "});",
+                  "pm.test('Corresponde al registro creado: id_grano', () => {",
+                  "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('cafeteria_grano_id_grano')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('cafeteria_grano_id_cafeteria');",
+                  "  pm.collectionVariables.unset('cafeteria_grano_id_grano');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "39 DELETE — Eliminar · Cafeterías aliadas",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/cafeterias-aliadas/{{cafeterias_aliadas_id_cafeteria}}",
+            "description": "Cafeterías aliadas — tabla cafeterias_aliadas.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"cafeterias_aliadas_id_cafeteria\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_cafeteria', () => {",
+                  "  pm.expect(response.data.id_cafeteria).to.eql(Number(pm.collectionVariables.get('cafeterias_aliadas_id_cafeteria')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('cafeterias_aliadas_id_cafeteria');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "40 DELETE — Eliminar · Métodos de preparación",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/metodos-preparacion/{{metodos_preparacion_id_metodo}}",
+            "description": "Métodos de preparación — tabla metodos_preparacion.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"metodos_preparacion_id_metodo\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_metodo', () => {",
+                  "  pm.expect(response.data.id_metodo).to.eql(Number(pm.collectionVariables.get('metodos_preparacion_id_metodo')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('metodos_preparacion_id_metodo');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "41 DELETE — Eliminar · Granos",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/granos/{{granos_id_grano}}",
+            "description": "Granos — tabla granos.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"granos_id_grano\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_grano', () => {",
+                  "  pm.expect(response.data.id_grano).to.eql(Number(pm.collectionVariables.get('granos_id_grano')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('granos_id_grano');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "42 DELETE — Eliminar · Productores",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/productores/{{productores_id_productor}}",
+            "description": "Productores — tabla productores.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"productores_id_productor\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_productor', () => {",
+                  "  pm.expect(response.data.id_productor).to.eql(Number(pm.collectionVariables.get('productores_id_productor')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('productores_id_productor');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "43 DELETE — Eliminar · Zonas de origen",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/zonas-origen/{{zonas_origen_id_zona}}",
+            "description": "Zonas de origen — tabla zonas_origen.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"zonas_origen_id_zona\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_zona', () => {",
+                  "  pm.expect(response.data.id_zona).to.eql(Number(pm.collectionVariables.get('zonas_origen_id_zona')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('zonas_origen_id_zona');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "44 DELETE — Eliminar · Usuarios",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/usuarios/{{usuarios_id_usuario}}",
+            "description": "Usuarios — tabla usuarios.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"usuarios_id_usuario\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_usuario', () => {",
+                  "  pm.expect(response.data.id_usuario).to.eql(Number(pm.collectionVariables.get('usuarios_id_usuario')));",
+                  "});",
+                  "pm.test('La API nunca devuelve contraseñas ni hashes', () => {",
+                  "  const rows = Array.isArray(response.data) ? response.data : [response.data];",
+                  "  rows.forEach(row => {",
+                  "    pm.expect(row).not.to.have.property('password');",
+                  "    pm.expect(row).not.to.have.property('password_hash');",
+                  "  });",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('usuarios_id_usuario');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "45 DELETE — Eliminar · Roles",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/api/roles/{{roles_id_rol}}",
+            "description": "Roles — tabla roles.\n\nElimina exclusivamente el registro cuyo ID se capturó en el POST. Ejecutar esta fase al finalizar; el orden inverso conserva la integridad referencial."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Las variables locales evitan que un ID del entorno sustituya un ID recién creado.",
+                  "const names = [\"runTag\",\"roles_id_rol\",\"usuarios_id_usuario\",\"zonas_origen_id_zona\",\"productores_id_productor\",\"granos_id_grano\",\"metodos_preparacion_id_metodo\",\"cafeterias_aliadas_id_cafeteria\",\"cafeteria_grano_id_cafeteria\",\"cafeteria_grano_id_grano\",\"mensajes_contacto_id_mensaje\"];",
+                  "names.forEach(name => pm.variables.set(name, pm.collectionVariables.get(name) || ''));",
+                  "const required = [\"roles_id_rol\"];",
+                  "const missing = required.filter(name => !pm.collectionVariables.get(name));",
+                  "if (missing.length) {",
+                  "  console.error('Faltan referencias creadas por esta colección:', missing.join(', '));",
+                  "  if (typeof pm.execution.skipRequest === 'function') pm.execution.skipRequest();",
+                  "  throw new Error('Ejecuta la colección completa, desde Roles, para crear sus dependencias.');",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+                  "const response = pm.response.json();",
+                  "pm.test('Respuesta comprensible y exitosa', () => {",
+                  "  pm.expect(response.success).to.eql(true);",
+                  "  pm.expect(response.message).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Datos del registro presentes', () => pm.expect(response.data).to.be.an('object'));",
+                  "pm.test('Corresponde al registro creado: id_rol', () => {",
+                  "  pm.expect(response.data.id_rol).to.eql(Number(pm.collectionVariables.get('roles_id_rol')));",
+                  "});",
+                  "if (pm.response.code === 200 && response.success === true) {",
+                  "  pm.collectionVariables.unset('roles_id_rol');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}
